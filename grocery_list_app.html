@@ -1,0 +1,67 @@
+<html>
+
+  <head>
+
+      <title>Supermarket Shopping List App</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+      <!-- The code below formats the header at the top of the Web page -->
+
+      <style type="text/css">
+          #main-header{
+            text-align:center;
+            background-color:blue;
+            color:white;
+            padding:10px;
+          }
+      </style>
+
+  </head>
+
+  <body>
+      <header id="main-header">
+          <h1>My Supermarket Shopping List</h1>
+      </header>
+
+      <img src="Collage.jpg" alt="Collage" width="1500">
+
+      <h1>Items to Buy</h1>
+      <ol id="shoppingList"></ol>
+
+     <!-- The code below creates a text box and button for the app user to enter the items they plan to buy -->
+      <input id="itemTextInput" placeholder = "Write your item here" type = "text"/>
+      <button id="addItemButton">Add Item to List</button>
+
+      <script>
+
+            //*The array below is created empty so the app user can start with an empty list
+            var supermarketItems = [ ];
+
+
+            //*The redrawList function below updates the app user's shopping list (on the screen) after each item is entered.
+
+            function redrawList(){
+              var list = $("#shoppingList");
+              list.html("");
+              $.each(supermarketItems, function(index,value){
+                $("<li/>").text(value).appendTo(list);
+              });
+            }
+
+
+            redrawList();
+
+            /*The code below pushes each item the app user enters into the array called "superMarketItems". It also clears out the
+            text-entry box so it is ready for the next item. Finally,the redrawList function is invoked each time the "add item"
+            button is clicked--thereby building the shopping list on the screen*/
+
+            $("#addItemButton").click(function(){
+                var itemText = $("#itemTextInput").val();
+                supermarketItems.push(itemText);
+                $("#itemTextInput").val("");
+                redrawList();
+            });
+
+      </script>
+  </body>
+</html>
