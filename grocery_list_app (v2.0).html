@@ -1,0 +1,164 @@
+<html>
+
+  <head>
+
+      <title>Supermarket Shopping List App</title>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+      <!-- The code below formats the header at the top of the Web page,
+           as well as the input buttons -->
+
+      <style type="text/css">
+          #main-header{
+            text-align:center;
+            background-color:blue;
+            font-family: "Comic Sans MS";
+            color:white;
+            padding:10px;
+            }
+          button {
+            display: inline-block;
+            background-color: blue;
+            border-radius: 10px;
+            border: 4px double #cccccc;
+            color: white;
+            font-family: "Comic Sans MS";
+            text-align: center;
+            font-size: 12px;
+            padding: 6px;
+            width: 100px;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            }
+
+          input {
+            padding: 7px;
+            margin: 7px 0;
+            outline: none;
+            }
+          input:focus,
+          input:active {
+            border-color: transparent;
+            border-bottom: 2px solid #1c87c9;
+            }
+      </style>
+
+
+  </head>
+
+  <body>
+      <header id="main-header">
+          <h1>My Supermarket Shopping List</h1>
+      </header>
+
+      <img src="Collage.jpg" alt="Collage" width="1500">
+
+      <h1><span style="font-family:Comic Sans MS">Items to Buy</span></h1>
+      <ol id="shoppingList"></ol>
+
+     <!-- The code below creates text boxes and buttons for the app user to enter and remove the items they plan to buy -->
+      <input id="addItemInput" placeholder = "Write item to add here" type = "text"/>
+      <button id="addItemButton" type="button">Add Item</button>
+      <br>
+      <input id="removeItemInput" placeholder = "Write item to remove here" type = "text"/>
+      <button id="removeItemButton" type="button">Remove Item</button>
+
+      <br>
+      <button id="resetListButton" type="button">Reset List</button>
+
+      <script>
+
+
+            var supermarketItems = [ ];
+
+            //This function redraws the shopping list
+
+            function redrawList(){
+                var list = $("#shoppingList");
+                list.html("");
+                $.each(supermarketItems, function(index,value){
+                  $("<li/>").text(value).appendTo(list);
+                });
+                }
+
+
+            /*This function adds items to shopping list. It also checks to see
+            if an item entered has already been added to the list and sends out
+            an appropriate alert*/
+
+            function addItemToList(){
+                  var incrementer = 0;
+                  var itemText = $("#addItemInput").val();
+                  $.each(supermarketItems, function(index,value){
+                      if(itemText==value){
+                          alert("You've already entered this item.");
+                          $("#addItemInput").val("");
+                          incrementer++;
+                        }
+                    });
+                  if(incrementer == 0){
+                      supermarketItems.push(itemText);
+                      var list = $("#shoppingList");
+                      $("<li/>").text(itemText).appendTo(list);
+                      $("#addItemInput").val("");
+                      }
+                    }
+
+            /*This function removes items from the shopping list. It also provides a
+            warning to double check the spelling of the item the user wishes to delete*/
+
+            function removeItem(){
+                    var removeItemText = $("#removeItemInput").val();
+                    var counter = 0;
+                    $("#removeItemInput").val("");
+                    $.each(supermarketItems, function(index,value){
+                        if(removeItemText==value){
+                            supermarketItems.splice(index,1);
+                            redrawList();
+                            counter++;
+                            }
+                        });
+                        if (counter == 0){
+                          alert("The item you entered doesn't match anything on your list. Please double check the spelling and enter the item again.");
+                        }
+                      }
+
+
+
+            //The code below calls the addItemToList function when the user hits the enter button on the keyboard
+            $("#addItemInput").keypress(function(e) {
+                  if(e.which == 13) {
+                  addItemToList();
+                  }
+                });
+
+            //The code below calls the addItemToList function when the user clicks the "Add Item" button
+            $("#addItemButton").click(function(){
+                addItemToList();
+                });
+
+            //The code below calls the removeItem function when the user clicks the "Remove Item" button
+            $("#removeItemButton").click(function(){
+                  removeItem();
+                  });
+
+            //The code below calls the removeItem function when the user hits the enter button on the keyboard
+            $("#removeItemInput").keypress(function(e) {
+                    if(e.which == 13) {
+                    removeItem();
+                  }
+                });
+
+            //The code below resets the shopping list when the user clicks the "Reset List" button
+            $("#resetListButton").click(function(){
+                    supermarketItems = [];
+                    redrawList();
+                });
+
+      </script>
+  </body>
+</html>
